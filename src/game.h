@@ -5,6 +5,7 @@
 #include "textures.h"
 #include "player.h"
 #include "enemyManager.h"
+#include "projManager.h"
 
 class Game {
 

@@ -20,6 +20,7 @@ public:
 
     static int allCode; // Every enemy will have they're own num;
     int code;
+    int health = 10;
 
 
     virtual void update(Player&, EnemyManager&);

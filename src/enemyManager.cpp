@@ -19,6 +19,11 @@ void EnemyManager::update(Player& p, EnemyManager& eManager) {
             e.update(p, eManager);
         }
     }
+
+    // Spawner
+    if (tTime == FPS*3)
+        for (float i=1; i <= 2; i++)
+            addE("skeleton", {i*400, i*120});
 }   
 
 void EnemyManager::draw(sf::RenderWindow& window) {

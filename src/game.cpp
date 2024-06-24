@@ -8,12 +8,13 @@ void Game::start() {
 
     sf::Event event;
     running = true;
-    Player player = Player();
+    Player player = Player("warrior");
     EnemyManager eManager = EnemyManager();
+    ProjManager pManager = ProjManager();
 
-    eManager.addE("skeleton", {150, 50});
-    eManager.addE("skeleton", {550, 520});
     while (running) {
+        tTime++;
+        mPos = sf::Mouse::getPosition();
 
         while (window.pollEvent(event)) {
             if (event.type == event.Closed) {
@@ -24,12 +25,14 @@ void Game::start() {
         }
 
         // Update
-        player.update();
+        player.update(eManager, pManager);
+        pManager.update();
         eManager.update(player, eManager);
 
         // Draw
         window.clear({125, 125, 125, 0});
         eManager.draw(window);
+        pManager.draw(window);
         player.draw(window);
         window.display();
     }

@@ -10,6 +10,9 @@ Enemy::Enemy() {
 
 void Enemy::update(Player& p, EnemyManager& eManager) {
 
+    if (health <= 0) // death check
+        sprite.setScale(0, 0); // remove it from the vector later.
+
     bool left=false, right=false, up=false, down=false;
 
     point velo {
