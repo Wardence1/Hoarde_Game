@@ -12,16 +12,16 @@ void EnemyManager::addE(std::string type, point pos) {
     enemies.push_back(Skeleton::enemy_list);
 }
 
-void EnemyManager::update(Player& p, EnemyManager& eManager) {
+void EnemyManager::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
 
     for (auto& l : enemies) {
         for (auto& e : l) {
-            e.update(p, eManager);
+            e.update(p, eManager, nManager);
         }
     }
 
     // Spawner
-    if (tTime == FPS*3)
+    if (tTime == FPS*0.5)
         for (float i=1; i <= 2; i++)
             addE("skeleton", {i*400, i*120});
 }   

@@ -8,17 +8,17 @@ Enemy::Enemy() {
     code = Enemy::allCode;
 }
 
-void Enemy::update(Player& p, EnemyManager& eManager) {
+void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
 
-    if (health <= 0) // death check
-        sprite.setScale(0, 0); // remove it from the vector later.
+    sprite.setColor(sf::Color::White);
 
     bool left=false, right=false, up=false, down=false;
 
-    point velo {
-        0,
-        0
-    };
+    // TODO This gets out of sinc after being hit with knockback
+    if (velo.x != 0)
+        velo.x > 0 ? velo.x -= speed : velo.x += speed;
+    if (velo.y != 0)
+        velo.y > 0 ? velo.y -= speed : velo.y += speed;
 
     point eCenter {
         pos.x + width/2,
@@ -65,6 +65,33 @@ void Enemy::update(Player& p, EnemyManager& eManager) {
                         velo.y = 0;
                 }
             }   
+
+    if (hitDam > 0) {
+        sprite.setColor(sf::Color::Red);
+        health -= hitDam;
+        nManager.addN({pos.x, pos.y-5}, hitDam);
+        // Knockback
+        switch (p.facing) {
+            case p.Up:
+                velo.y = -p.knockback;
+                break;
+            case p.Down:
+                velo.y = p.knockback;
+                break;
+            case p.Left:
+                velo.x = -p.knockback;
+                break;
+            case p.Right:
+                velo.x = p.knockback;
+                break;        
+        }
+
+        hitDam = 0;
+    }
+
+    if (health <= 0) // death checks
+        sprite.setScale(0, 0); // remove it from the vector later.
+
 
 
     if (velo.x && velo.y) { // Stops from moving faster diagonally

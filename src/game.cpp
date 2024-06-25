@@ -11,6 +11,7 @@ void Game::start() {
     Player player = Player("warrior");
     EnemyManager eManager = EnemyManager();
     ProjManager pManager = ProjManager();
+    HitNumManager nManager = HitNumManager();
 
     while (running) {
         tTime++;
@@ -27,10 +28,12 @@ void Game::start() {
         // Update
         player.update(eManager, pManager);
         pManager.update();
-        eManager.update(player, eManager);
+        eManager.update(player, eManager, nManager);
+        nManager.updateM();
 
         // Draw
-        window.clear({125, 125, 125, 0});
+        window.clear({45, 45, 45, 0});
+        nManager.drawM(window);
         eManager.draw(window);
         pManager.draw(window);
         player.draw(window);

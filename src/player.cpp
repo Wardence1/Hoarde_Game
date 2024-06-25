@@ -29,36 +29,38 @@ Player::Player(std::string c_class) {
 
     width = sprite.getTextureRect().width*SCALE;
     height = sprite.getTextureRect().height*SCALE;
+
+    facing = Down;
+
+
+    slash_s.setTexture(SLASH_T);
+    slash_s.setScale(0, 0);
 }
 
 void Player::update(EnemyManager& eMan, ProjManager& pMan) {
 
     if (dead)
-        sprite.setScale(0, 0);
-
-    facing = {false, false, false, false};
+        ;//sprite.setScale(0, 0);
 
     velo.y = 0;
     velo.x = 0;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         velo.y -= speed;
-        facing.up = true;
+        facing = Up;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         velo.x -= speed;
-        facing.left = true;
+        facing = Left;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
         velo.y += speed;
-        facing.down = true;
+        facing = Down;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         velo.x += speed;
-        facing.right = true;
+        facing = Right;
     }
-
-    attackTime(eMan, pMan);
 
     // Collision with sides
     if (pos.x + velo.x + width > SCREEN_WIDTH) {
@@ -87,47 +89,74 @@ void Player::update(EnemyManager& eMan, ProjManager& pMan) {
         pos.y += velo.y;
     }
 
+    attack(eMan, pMan);
 
     sprite.setPosition(pos.x, pos.y);
 }
 
 void Player::draw(sf::RenderWindow& window) {
+    window.draw(slash_s);
     window.draw(sprite);
 }
 
-void Player::attackTime(EnemyManager& eMan, ProjManager& pMan) {
+void Player::attack(EnemyManager& eMan, ProjManager& pMan) {
 
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        switch (character_class) {
-        case Wizard:
-            pMan.addP("basic spell", {pos.x-(width/2), pos.y-(height/2)}, {(float)mPos.x, (float)mPos.y});
-            break;
-        case Archer:
-            // TODO
-            break;
-        case Warrior:
+    if (atkCool < FPS*10) atkCool++;
 
-            if (facing.up) {
-                
-            }
-            else if (facing.down) {
-                
-            }
-            else if (facing.left) {
-
-            }
-            else if (facing.right) {
-                
-            }
-
-
-            break;
+    switch (character_class) {
+    case Wizard:
+        pMan.addP("basic spell", {pos.x-(width/2), pos.y-(height/2)}, {(float)mPos.x, (float)mPos.y});
+        break;
+    case Archer:
+        // TODO
+        break;
+    case Warrior:
+        if (facing == Right) {
+            createSlash(eMan, {pos.x+width+slash_s.getTextureRect().width*SCALE, pos.y}, 90);
         }
+        else if (facing == Down) {
+            createSlash(eMan, {pos.x+slash_s.getTextureRect().width*SCALE, pos.y+height*2}, 180);
+        }
+        else if (facing == Left) {
+            createSlash(eMan, {pos.x-width, pos.y + slash_s.getTextureRect().height*SCALE}, 270);
+        }
+        else if (facing == Up) {
+            createSlash(eMan, {pos.x, pos.y-height}, 0);
+        }
+        break;
     }
+}
         
 
-    for (auto& l : eMan.enemies)
-        for (auto& e : l) {
-            // Enemy collisions with attack
+void Player::createSlash(EnemyManager& eMan, point spawn, int rotation) {
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        if (atkCool >= 4 && !sPressed) {
+            attacking = true;
+            sPressed = true;
         }
+    } else
+        sPressed = false;
+
+    if (attacking) {
+        slash_s.setPosition(spawn.x, spawn.y);
+        slash_s.setRotation((float)rotation);
+        slash_s.setScale(SCALE, SCALE);
+        atkTime++;
+
+        for (auto& l : eMan.enemies)
+            for (auto& e : l) {
+                if (slash_s.getGlobalBounds().intersects(e.sprite.getGlobalBounds())) {
+                    e.hitDam = damage;
+                }
+            }
+    }
+
+
+    if (atkTime > 1) {
+        slash_s.setScale(0, 0);
+        atkCool = 0;
+        atkTime = 0;
+        attacking = false;
+    }
 }

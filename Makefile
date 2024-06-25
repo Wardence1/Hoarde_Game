@@ -9,5 +9,6 @@ all:
 	g++ -c src/enemyManager.cpp -o build/enemyManager.o
 	g++ -c src/projectile.cpp -o build/projectile.o
 	g++ -c src/projManager.cpp -o build/projManager.o
+	g++ -c src/hitNumbers.cpp -o build/hitNumbers.o
 
-	g++ build/main.o build/enemy.o build/projManager.o build/projectile.o build/skeleton.o build/game.o build/globals.o build/enemyManager.o build/textures.o build/player.o -o game -lsfml-graphics -lsfml-window -lsfml-system -Wall
+	g++ build/main.o build/enemy.o build/hitNumbers.o build/projManager.o build/projectile.o build/skeleton.o build/game.o build/globals.o build/enemyManager.o build/textures.o build/player.o -o game -lsfml-graphics -lsfml-window -lsfml-system -Wall

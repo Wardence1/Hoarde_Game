@@ -6,6 +6,7 @@
 #include "player.h"
 #include "enemyManager.h"
 #include "projManager.h"
+#include "hitNumbers.h"
 
 class Game {
 

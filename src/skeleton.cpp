@@ -14,8 +14,8 @@ Skeleton::Skeleton(point pos) {
     speed = 3;
 }
 
-void Skeleton::update(Player& p, EnemyManager& eManager) {
+void Skeleton::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
 
-    Enemy::update(p, eManager);
+    Enemy::update(p, eManager, nManager);
 }
 
