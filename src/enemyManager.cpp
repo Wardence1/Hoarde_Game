@@ -14,23 +14,34 @@ void EnemyManager::addE(std::string type, point pos) {
 
 void EnemyManager::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
 
-    for (auto& l : enemies) {
-        for (auto& e : l) {
-            e.update(p, eManager, nManager);
+    for (int i=0; i < Skeleton::amount; i++) { // Do this for every enemy 
+        Skeleton::enemy_list[i].update(p, eManager, nManager);
+        if (Skeleton::enemy_list[i].dead) {
+            Enemy::enemy_list.erase(i+Enemy::enemy_list.begin());
         }
     }
 
+    enemies.clear(); // TODO * this is really inefficient. It would be better for everything to go through each enemy's list instead of enemies.
+    enemies.push_back(Skeleton::enemy_list);
+
     // Spawner
-    if (tTime == FPS*0.5)
-        for (float i=1; i <= 2; i++)
-            addE("skeleton", {i*400, i*120});
+
+    static bool flip = false; 
+
+    if (tTime%(FPS/2) == 0 && flip) {
+        addE("skeleton", {65, 20});
+        flip = false;
+    }
+    else if (tTime%(FPS/2) == 0 && !flip) {
+        addE("skeleton", {SCREEN_WIDTH-65, SCREEN_HEIGHT-65});
+        flip = true;
+    }
+
 }   
 
 void EnemyManager::draw(sf::RenderWindow& window) {
 
-    for (auto l : enemies) {
-        for (auto e : l) {
-            e.draw(window);
-        }
+    for (auto e : Skeleton::enemy_list) {
+        e.draw(window);
     }
 }

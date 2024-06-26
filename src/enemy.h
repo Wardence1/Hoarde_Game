@@ -18,12 +18,14 @@ public:
     int width, height;
     float speed = 5.5;
     int hitDam = 0;
-    const float threshold = speed+1;
+    float threshold = speed+1;
 
     static int allCode; // Every enemy will have they're own num;
     int code;
     int health = 10;
-
+    static unsigned int amount;
+    bool dead = false;
+    bool crit = false;
 
     virtual void update(Player&, EnemyManager&, HitNumManager&);
     virtual void draw(sf::RenderWindow&);

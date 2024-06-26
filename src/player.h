@@ -14,18 +14,18 @@ public:
     point velo {0, 0}; // Velocity
     sf::Sprite sprite;
     float speed = 8;
-    int damage = 1;
+    int damage = 5;
     float knockback = 28;
 
     float width, height;
     bool dead = false;
 
 
-    void update(EnemyManager&, ProjManager&);
+    void update(ProjManager&);
     void draw(sf::RenderWindow&);
 
-    void attack(EnemyManager&, ProjManager&);
-    void createSlash(EnemyManager&, point, int rotation); // creates a slash for the warrior class
+    void attack(ProjManager&);
+    void createSlash(point, int rotation); // creates a slash for the warrior class
     sf::Sprite slash_s;
     int atkTime = 0, atkCool = FPS*10;
     bool attacking = false, sPressed = false; // So you can't hold down the space key.

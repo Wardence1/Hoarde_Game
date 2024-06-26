@@ -26,7 +26,7 @@ void Game::start() {
         }
 
         // Update
-        player.update(eManager, pManager);
+        player.update(pManager);
         pManager.update();
         eManager.update(player, eManager, nManager);
         nManager.updateM();

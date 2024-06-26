@@ -6,6 +6,7 @@ Enemy::Enemy() {
 
     Enemy::allCode += 1;
     code = Enemy::allCode;
+    Enemy::amount++;
 }
 
 void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
@@ -64,12 +65,13 @@ void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
                     if (velo.y < 0)
                         velo.y = 0;
                 }
-            }   
+            } 
 
     if (hitDam > 0) {
         sprite.setColor(sf::Color::Red);
         health -= hitDam;
-        nManager.addN({pos.x, pos.y-5}, hitDam);
+        nManager.addN({pos.x, pos.y-5}, hitDam, crit);
+        crit=false;
         // Knockback
         switch (p.facing) {
             case p.Up:
@@ -89,8 +91,10 @@ void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
         hitDam = 0;
     }
 
-    if (health <= 0) // death checks
-        sprite.setScale(0, 0); // remove it from the vector later.
+    if (health <= 0 && !dead) { // death checks
+        Enemy::amount--;
+        dead = true;
+    }
 
 
 
@@ -117,3 +121,4 @@ void Enemy::draw(sf::RenderWindow& window) {
 
 std::vector<Enemy> Enemy::enemy_list;
 int Enemy::allCode = 0;
+unsigned int Enemy::amount = 0;

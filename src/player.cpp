@@ -37,7 +37,7 @@ Player::Player(std::string c_class) {
     slash_s.setScale(0, 0);
 }
 
-void Player::update(EnemyManager& eMan, ProjManager& pMan) {
+void Player::update(ProjManager& pMan) {
 
     if (dead)
         ;//sprite.setScale(0, 0);
@@ -89,7 +89,7 @@ void Player::update(EnemyManager& eMan, ProjManager& pMan) {
         pos.y += velo.y;
     }
 
-    attack(eMan, pMan);
+    attack(pMan);
 
     sprite.setPosition(pos.x, pos.y);
 }
@@ -99,7 +99,7 @@ void Player::draw(sf::RenderWindow& window) {
     window.draw(sprite);
 }
 
-void Player::attack(EnemyManager& eMan, ProjManager& pMan) {
+void Player::attack(ProjManager& pMan) {
 
     if (atkCool < FPS*10) atkCool++;
 
@@ -112,23 +112,23 @@ void Player::attack(EnemyManager& eMan, ProjManager& pMan) {
         break;
     case Warrior:
         if (facing == Right) {
-            createSlash(eMan, {pos.x+width+slash_s.getTextureRect().width*SCALE, pos.y}, 90);
+            createSlash({pos.x+width+slash_s.getTextureRect().width*SCALE, pos.y}, 90);
         }
         else if (facing == Down) {
-            createSlash(eMan, {pos.x+slash_s.getTextureRect().width*SCALE, pos.y+height*2}, 180);
+            createSlash({pos.x+slash_s.getTextureRect().width*SCALE, pos.y+height*2}, 180);
         }
         else if (facing == Left) {
-            createSlash(eMan, {pos.x-width, pos.y + slash_s.getTextureRect().height*SCALE}, 270);
+            createSlash({pos.x-width, pos.y + slash_s.getTextureRect().height*SCALE}, 270);
         }
         else if (facing == Up) {
-            createSlash(eMan, {pos.x, pos.y-height}, 0);
+            createSlash({pos.x, pos.y-height}, 0);
         }
         break;
     }
 }
         
 
-void Player::createSlash(EnemyManager& eMan, point spawn, int rotation) {
+void Player::createSlash(point spawn, int rotation) {
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
         if (atkCool >= 4 && !sPressed) {
@@ -144,12 +144,17 @@ void Player::createSlash(EnemyManager& eMan, point spawn, int rotation) {
         slash_s.setScale(SCALE, SCALE);
         atkTime++;
 
-        for (auto& l : eMan.enemies)
-            for (auto& e : l) {
+        if (atkTime == 1)
+            for (auto& e : Skeleton::enemy_list)
                 if (slash_s.getGlobalBounds().intersects(e.sprite.getGlobalBounds())) {
-                    e.hitDam = damage;
+                    if (rand()%4 == 3) {
+                        e.hitDam = damage*1.5;
+                        e.crit = true;
+                    }
+                    else {
+                        e.hitDam = damage;
+                    }
                 }
-            }
     }
 
 
