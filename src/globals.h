@@ -12,4 +12,11 @@ struct point {
     float y;
 };
 
+enum direction {
+    Up,
+    Down,
+    Left,
+    Right
+};
+
 extern sf::Vector2i mPos; // mouse position

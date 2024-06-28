@@ -8,7 +8,7 @@ void Game::start() {
 
     sf::Event event;
     running = true;
-    Player player = Player("warrior");
+    Player player = Player();
     EnemyManager eManager = EnemyManager();
     ProjManager pManager = ProjManager();
     HitNumManager nManager = HitNumManager();
@@ -26,7 +26,7 @@ void Game::start() {
         }
 
         // Update
-        player.update(pManager);
+        player.update(pManager, nManager);
         pManager.update();
         eManager.update(player, eManager, nManager);
         nManager.updateM();

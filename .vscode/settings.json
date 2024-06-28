@@ -46,6 +46,14 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "cinttypes": "cpp",
-        "typeinfo": "cpp"
-    }
+        "typeinfo": "cpp",
+        "list": "cpp"
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/jackson/Desktop/Hoarde_Game",
+            "binaryPath": "/home/jackson/Desktop/Hoarde_Game/game",
+            "binaryArgs": []
+        }
+    ]
 }

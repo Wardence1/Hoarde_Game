@@ -1,9 +1,9 @@
 #pragma once
-#include "globals.h"
+#include "../globals.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <math.h>
-#include "hitNumbers.h"
+#include "../hitNumbers.h"
 
 class Player;
 class EnemyManager;
@@ -19,10 +19,11 @@ public:
     float speed = 5.5;
     int hitDam = 0;
     float threshold = speed+1;
+    unsigned int damage = 3; 
+    int health = 10;
 
     static int allCode; // Every enemy will have they're own num;
     int code;
-    int health = 10;
     static unsigned int amount;
     bool dead = false;
     bool crit = false;
@@ -34,6 +35,8 @@ public:
         0,
         0
     };
+
+    direction facing;
 };
 
 

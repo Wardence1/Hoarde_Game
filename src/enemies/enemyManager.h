@@ -1,14 +1,14 @@
 #pragma once
 #include "skeleton.h"
-#include "player.h"
+#include "goblin.h"
+#include "../player.h"
 #include <vector>
-#include "hitNumbers.h"
+#include "../hitNumbers.h"
 
 class EnemyManager {
 
 public:
     void update(Player&, EnemyManager&, HitNumManager&);
     void draw(sf::RenderWindow&);
-    void addE(std::string, point);
-    std::vector<std::vector<Enemy>> enemies;    
+    void addE(std::string, point, bool side = false); 
 };

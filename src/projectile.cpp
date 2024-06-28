@@ -1,5 +1,5 @@
 #include "projectile.h"
-#include "enemy.h"
+#include "enemies/enemy.h"
 
 Projectile::Projectile(const std::string type, point origin, point going) {
 
@@ -16,8 +16,8 @@ Projectile::Projectile(const std::string type, point origin, point going) {
 
     if (type == "basic spell") {
         sprite.setTexture(BASIC_SPELL_T);
-        rise/20;
-        run/20;
+        //rise/20;
+        //run/20;
     }
 
     sprite.scale(SCALE, SCALE);

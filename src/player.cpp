@@ -1,66 +1,99 @@
 #include "player.h"
-#include "enemyManager.h"
+#include "enemies/enemyManager.h"
 #include <iostream>
 #include "projectile.h"
 
-Player::Player(std::string c_class) {
+Player::Player() {
 
-    pos = {400, 400};
-
-    if (c_class == "warrior") {
-        sprite.setTexture(WIZARD_T);
-        character_class = Warrior;
-    }
-    else if (c_class == "wizard") {
-        sprite.setTexture(WIZARD_T);
-        character_class = Wizard;
-    }
-    else if (c_class == "archer") {
-        sprite.setTexture(WIZARD_T);
-        character_class = Archer;
-    }
-    else {
-        std::cout << "Invalid character type.\n";
-        exit(-1);
-    }
-
-    sprite.setPosition({pos.x, pos.y});
-    sprite.setScale(SCALE, SCALE);
+    sprite.setTexture(WIZARD_T);
 
     width = sprite.getTextureRect().width*SCALE;
     height = sprite.getTextureRect().height*SCALE;
 
-    facing = Down;
+    pos = {(SCREEN_WIDTH/2)-(width/2), (SCREEN_HEIGHT/2)-(height/2)};
 
+    sprite.setPosition({pos.x, pos.y});
+    sprite.setScale(SCALE, SCALE);
+
+    facing = Down;
+    hitDir = Down;
 
     slash_s.setTexture(SLASH_T);
     slash_s.setScale(0, 0);
 }
 
-void Player::update(ProjManager& pMan) {
+void Player::update(ProjManager& pMan, HitNumManager& nMan) {
 
-    if (dead)
-        ;//sprite.setScale(0, 0);
+    // Set speed equal to zero or slow it down
+    if (abs(velo.x) <= speed) {
+        velo.x = 0;
+    } else {
+        velo.x > 0 ? velo.x -= speed+2 : velo.x += speed+2;
+    }
 
-    velo.y = 0;
-    velo.x = 0;
+    if (abs(velo.y) <= speed) {
+        velo.y = 0;
+    } else {
+        velo.y > 0 ? velo.y -= speed+2 : velo.y += speed+2;
+    }
+
+
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        velo.y -= speed;
+        if (!knockBacked) velo.y -= speed;
         facing = Up;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        velo.x -= speed;
+        if (!knockBacked) velo.x -= speed;
         facing = Left;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        velo.y += speed;
+        if (!knockBacked) velo.y += speed;
         facing = Down;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        velo.x += speed;
+        if (!knockBacked) velo.x += speed;
         facing = Right;
     }
+
+
+    if (knockBacked && abs(velo.x) <= speed && abs(velo.y) <= speed)
+        knockBacked = false;
+
+    // Enemy collision
+    if (immunityF > 0) {
+        immunityF--;
+        hitDam = 0;
+    }
+    else if (hitDam > 0) {
+        nMan.addN(pos, -hitDam, false, true);
+        immunityF = FPS;
+        sprite.setColor(sf::Color::Red);
+        if (!knockBacked)
+            switch (hitDir) { // TODO * make each enemy have their own knockback
+                case Up:
+                    velo.y = -40;
+                    break;
+                case Down:
+                    velo.y = 40;
+                    break;
+                case Left:
+                    velo.x = -40;
+                    break;
+                case Right:
+                    velo.x = 40;
+                    break;
+            }
+        health -= hitDam;
+        knockBacked = true;
+        hitDam = 0;
+    }
+
+    if (health <= 0) {
+        dead = true;
+        // Do dead stuff
+    }
+
 
     // Collision with sides
     if (pos.x + velo.x + width > SCREEN_WIDTH) {
@@ -81,8 +114,8 @@ void Player::update(ProjManager& pMan) {
     }
 
     if (velo.x && velo.y) { // Stops from moving faster diagonally
-        pos.x += velo.x/1.4;
-        pos.y += velo.y/1.4;
+        pos.x += velo.x/1.414;
+        pos.y += velo.y/1.414; // square root of 2
     }
     else {
         pos.x += velo.x;
@@ -96,21 +129,16 @@ void Player::update(ProjManager& pMan) {
 
 void Player::draw(sf::RenderWindow& window) {
     window.draw(slash_s);
-    window.draw(sprite);
+
+    if ((immunityF & 1) == 0) window.draw(sprite);
+
+    sprite.setColor(sf::Color::White);
 }
 
 void Player::attack(ProjManager& pMan) {
 
     if (atkCool < FPS*10) atkCool++;
 
-    switch (character_class) {
-    case Wizard:
-        pMan.addP("basic spell", {pos.x-(width/2), pos.y-(height/2)}, {(float)mPos.x, (float)mPos.y});
-        break;
-    case Archer:
-        // TODO
-        break;
-    case Warrior:
         if (facing == Right) {
             createSlash({pos.x+width+slash_s.getTextureRect().width*SCALE, pos.y}, 90);
         }
@@ -123,9 +151,7 @@ void Player::attack(ProjManager& pMan) {
         else if (facing == Up) {
             createSlash({pos.x, pos.y-height}, 0);
         }
-        break;
     }
-}
         
 
 void Player::createSlash(point spawn, int rotation) {
@@ -144,8 +170,8 @@ void Player::createSlash(point spawn, int rotation) {
         slash_s.setScale(SCALE, SCALE);
         atkTime++;
 
-        if (atkTime == 1)
-            for (auto& e : Skeleton::enemy_list)
+        if (atkTime == 1) {
+            for (auto& e : Enemy::enemy_list)
                 if (slash_s.getGlobalBounds().intersects(e.sprite.getGlobalBounds())) {
                     if (rand()%4 == 3) {
                         e.hitDam = damage*1.5;
@@ -154,7 +180,7 @@ void Player::createSlash(point spawn, int rotation) {
                     else {
                         e.hitDam = damage;
                     }
-                }
+        }
     }
 
 
@@ -164,4 +190,5 @@ void Player::createSlash(point spawn, int rotation) {
         atkTime = 0;
         attacking = false;
     }
+}
 }

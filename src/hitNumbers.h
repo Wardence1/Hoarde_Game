@@ -10,7 +10,7 @@
 class HitNumber {
 
 public:
-    HitNumber(point, int amount, bool crit);
+    HitNumber(point, int amount, bool crit, bool red);
     void update();
     void draw(sf::RenderWindow&);
     bool dead = false;
@@ -19,6 +19,7 @@ private:
     int speed = 5;
     int time=255;
     int amount;
+    bool red;
     sf::Text num;
 };
 
@@ -27,7 +28,7 @@ class HitNumManager {
 public:
     void updateM();
     void drawM(sf::RenderWindow& window);
-    void addN(point, int amount, bool crit=false);
+    void addN(point, int amount, bool crit=false, bool red=false);
 private:
     std::vector<HitNumber> list;
 };

@@ -1,5 +1,5 @@
 #include "skeleton.h"
-#include "player.h"
+#include "../player.h"
 
 Skeleton::Skeleton(point pos) {
 
@@ -12,6 +12,8 @@ Skeleton::Skeleton(point pos) {
     height = sprite.getTextureRect().height*SCALE;
 
     speed = 3;
+    damage = 5;
+    health = 12;
 }
 
 void Skeleton::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {

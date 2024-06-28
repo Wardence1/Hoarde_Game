@@ -1,9 +1,10 @@
 #include "hitNumbers.h"
 
-HitNumber::HitNumber(point pos, int amount, bool crit) {
+HitNumber::HitNumber(point pos, int amount, bool crit, bool red) {
 
     this->pos = pos;
     this->amount = amount;
+    this->red = red;
     num.setPosition(pos.x, pos.y);
     num.setFont(PIXEL_F);
     num.setStyle(sf::Text::Bold);
@@ -18,8 +19,11 @@ HitNumber::HitNumber(point pos, int amount, bool crit) {
 void HitNumber::update() {
 
     pos.y -= speed;
-    //num.setFillColor({(unsigned char)amount, 0, 0, (unsigned char)time});
-    num.setFillColor({255, 255, 255, (unsigned char)time});
+    if (red) {
+        num.setFillColor({255, 0, 0, (unsigned char)time});
+    } else {
+        num.setFillColor({255, 255, 255, (unsigned char)time});
+    }
     
 
 
@@ -39,7 +43,7 @@ void HitNumber::draw(sf::RenderWindow& window) {
 
 void HitNumManager::updateM() {
 
-    for (int i=0; i<list.size(); i++) {
+    for (long unsigned int i=0; i<list.size(); i++) {
         list[i].update();
         if (list[i].dead) 
             list.erase(i+list.begin());
@@ -53,7 +57,7 @@ void HitNumManager::drawM(sf::RenderWindow& window) {
 }
 
 
-void HitNumManager::addN(point pos, int amount, bool crit) {
+void HitNumManager::addN(point pos, int amount, bool crit, bool red) {
 
-    list.push_back(HitNumber(pos, amount, crit));
+    list.push_back(HitNumber(pos, amount, crit, red));
 }

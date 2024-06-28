@@ -4,7 +4,7 @@
 #include <iostream>
 #include "textures.h"
 #include "player.h"
-#include "enemyManager.h"
+#include "./enemies/enemyManager.h"
 #include "projManager.h"
 #include "hitNumbers.h"
 
