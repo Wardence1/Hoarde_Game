@@ -5,7 +5,7 @@
 
 Player::Player() {
 
-    sprite.setTexture(WIZARD_T);
+    sprite.setTexture(KNIGHT_T);
 
     width = sprite.getTextureRect().width*SCALE;
     height = sprite.getTextureRect().height*SCALE;
@@ -66,7 +66,7 @@ void Player::update(ProjManager& pMan, HitNumManager& nMan) {
         hitDam = 0;
     }
     else if (hitDam > 0) {
-        nMan.addN(pos, -hitDam, false, true);
+        if ((health-hitDam) > 0) nMan.addN(pos, -hitDam, false, true);
         immunityF = FPS;
         sprite.setColor(sf::Color::Red);
         if (!knockBacked)
@@ -90,8 +90,7 @@ void Player::update(ProjManager& pMan, HitNumManager& nMan) {
     }
 
     if (health <= 0) {
-        dead = true;
-        // Do dead stuff
+        game_state = Dead;
     }
 
 
@@ -130,7 +129,7 @@ void Player::update(ProjManager& pMan, HitNumManager& nMan) {
 void Player::draw(sf::RenderWindow& window) {
     window.draw(slash_s);
 
-    if ((immunityF & 1) == 0) window.draw(sprite);
+    if ((immunityF & 3) == 0) window.draw(sprite);
 
     sprite.setColor(sf::Color::White);
 }

@@ -6,6 +6,7 @@ extern const float SCREEN_HEIGHT;
 extern const char* TITLE;
 extern const float SCALE; 
 extern int tTime;
+extern bool running;
 
 struct point {
     float x;
@@ -18,5 +19,12 @@ enum direction {
     Left,
     Right
 };
+
+extern enum GAME_STATE {
+    Running,
+    Dead,
+    Paused,
+    Menu,
+} game_state;
 
 extern sf::Vector2i mPos; // mouse position

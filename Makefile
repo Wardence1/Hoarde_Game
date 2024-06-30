@@ -5,7 +5,7 @@ LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
 SRCS = src/main.cpp src/globals.cpp src/game.cpp src/player.cpp src/textures.cpp \
        src/enemies/enemy.cpp src/enemies/skeleton.cpp src/enemies/enemyManager.cpp src/enemies/goblin.cpp src/projectile.cpp \
-       src/projManager.cpp src/hitNumbers.cpp
+       src/projManager.cpp src/hitNumbers.cpp src/GUIs/deadScreen.cpp src/GUIs/button.cpp
 
 
 OBJS = $(SRCS:src/%.cpp=build/%.o)

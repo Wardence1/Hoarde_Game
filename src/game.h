@@ -6,11 +6,11 @@
 #include "player.h"
 #include "./enemies/enemyManager.h"
 #include "projManager.h"
+#include "GUIs/deadScreen.h"
 #include "hitNumbers.h"
 
 class Game {
 
 public:
     void start();
-    bool running;
 };

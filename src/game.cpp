@@ -1,6 +1,7 @@
 #include "game.h"
 
 void Game::start() {
+
     loadTextures();
     sf::RenderWindow window(sf::RenderWindow(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), TITLE, sf::Style::Close));
     window.setPosition({((int)sf::VideoMode::getDesktopMode().width/2)-(int)SCREEN_WIDTH/2, (int)(sf::VideoMode::getDesktopMode().height/2)-(int)SCREEN_HEIGHT/2});
@@ -12,6 +13,7 @@ void Game::start() {
     EnemyManager eManager = EnemyManager();
     ProjManager pManager = ProjManager();
     HitNumManager nManager = HitNumManager();
+    DeadScreen dScreen = DeadScreen();
 
     while (running) {
         tTime++;
@@ -25,11 +27,16 @@ void Game::start() {
             }
         }
 
+
         // Update
-        player.update(pManager, nManager);
-        pManager.update();
-        eManager.update(player, eManager, nManager);
-        nManager.updateM();
+        if (game_state == Running) {
+            player.update(pManager, nManager);
+            pManager.update();
+            eManager.update(player, eManager, nManager);
+            nManager.updateM();
+        } else if (game_state == Dead) {
+            dScreen.update(player, nManager);
+        }
 
         // Draw
         window.clear({45, 45, 45, 0});
@@ -37,6 +44,11 @@ void Game::start() {
         eManager.draw(window);
         pManager.draw(window);
         player.draw(window);
+
+        if (game_state == Dead) {
+            dScreen.draw(window);
+        }
+        
         window.display();
     }
 }

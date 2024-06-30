@@ -130,10 +130,6 @@ void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
 
 
     sprite.setPosition(pos.x, pos.y);
-
-    if (sprite.getGlobalBounds().intersects(p.sprite.getGlobalBounds())) // Player hit check
-        p.dead = true;
-
 }
 
 void Enemy::draw(sf::RenderWindow& window) {

@@ -29,6 +29,5 @@ public:
     void updateM();
     void drawM(sf::RenderWindow& window);
     void addN(point, int amount, bool crit=false, bool red=false);
-private:
     std::vector<HitNumber> list;
 };

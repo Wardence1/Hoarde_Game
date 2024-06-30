@@ -18,10 +18,10 @@ public:
     int damage = 5;
     float knockback = 28;
     int health = 25;
+    int maxHealth = health;
     unsigned short immunityF = 0; // Immunity frames
 
     float width, height;
-    bool dead = false;
     bool knockBacked = false; // is true when the player is taking knockback
 
     void update(ProjManager&, HitNumManager&);
@@ -32,7 +32,7 @@ public:
     sf::Sprite slash_s;
     int atkTime = 0, atkCool = FPS*10;
     bool attacking = false, sPressed = false; // So you can't hold down the space key.
-    unsigned int hitDam = 0;
+    int hitDam = 0;
 
     direction facing;
     direction hitDir;
