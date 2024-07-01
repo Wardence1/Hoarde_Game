@@ -8,6 +8,9 @@
 #include "projManager.h"
 #include "GUIs/deadScreen.h"
 #include "hitNumbers.h"
+#include "GUIs/runScreen.h"
+#include "GUIs/pauseScreen.h"
+#include <random>
 
 class Game {
 

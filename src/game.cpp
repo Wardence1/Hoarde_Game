@@ -13,9 +13,12 @@ void Game::start() {
     EnemyManager eManager = EnemyManager();
     ProjManager pManager = ProjManager();
     HitNumManager nManager = HitNumManager();
+    RunScreen rScreen = RunScreen();
     DeadScreen dScreen = DeadScreen();
+    PauseScreen pScreen = PauseScreen();
 
     while (running) {
+        // set randoms seed based on gametime
         tTime++;
         mPos = sf::Mouse::getPosition();
 
@@ -24,6 +27,21 @@ void Game::start() {
                 window.close();
                 running = false;
                 break;
+            }
+            if (event.type == event.KeyPressed) {
+                if (event.key.code == sf::Keyboard::Escape && game_state == Running) {
+                    game_state = Paused;
+                }
+                else if (event.key.code == sf::Keyboard::Escape && game_state == Paused) {
+                    game_state = Running;
+                    pScreen.buttons = pScreen.None;
+                }
+                
+                if (event.key.code == sf::Keyboard::Up)
+                    upArrow = true;
+
+                if (event.key.code == sf::Keyboard::Down)
+                    downArrow = true;
             }
         }
 
@@ -34,12 +52,18 @@ void Game::start() {
             pManager.update();
             eManager.update(player, eManager, nManager);
             nManager.updateM();
+            rScreen.update(player);
         } else if (game_state == Dead) {
             dScreen.update(player, nManager);
+        } else if (game_state == Paused) {
+            pScreen.update();
         }
+        upArrow=false;
+        downArrow=false;
 
         // Draw
         window.clear({45, 45, 45, 0});
+        rScreen.draw(window);
         nManager.drawM(window);
         eManager.draw(window);
         pManager.draw(window);
@@ -47,6 +71,8 @@ void Game::start() {
 
         if (game_state == Dead) {
             dScreen.draw(window);
+        } else if (game_state == Paused) {
+            pScreen.draw(window);
         }
         
         window.display();

@@ -1,20 +1,19 @@
 #include "deadScreen.h"
 
 DeadScreen::DeadScreen() :
-    exit_B(Button("Exit", {142, 142, 142, 0}, {(float)(SCREEN_WIDTH/5)-(width/2), SCREEN_HEIGHT/1.45f}, SCREEN_WIDTH/6, SCREEN_HEIGHT/15, 5)),
-    respawn_B(Button("Respawn", {142, 142, 142, 0}, {(float)((SCREEN_WIDTH/5)-(width/2))*3, (float)SCREEN_HEIGHT/1.45f}, SCREEN_WIDTH/6, SCREEN_HEIGHT/15, 5))
- {
-
+    respawn_B(Button("Respawn", {142, 142, 142, 0}, {(float)(SCREEN_WIDTH/2), (SCREEN_HEIGHT/4)+130}, 5)),
+    exit_B(Button("Return to Title", {142, 142, 142, 0}, {(float)(SCREEN_WIDTH/2), (SCREEN_HEIGHT/4)+260}, 5)) {
+    
     redness.setFillColor({255, 0, 0, 125});
     redness.setPosition(0,0);
     redness.setSize({SCREEN_WIDTH, SCREEN_HEIGHT});
-    buttons = Respawn;
+    buttons = None;
 
-    youDied.setString("You Died!");
+    youDied.setString("You Died");
     youDied.setFont(PIXEL_F);
-    youDied.setScale(2, 2);
+    youDied.setCharacterSize(60);
     youDied.setOrigin(youDied.getLocalBounds().width/2, youDied.getLocalBounds().height/2);
-    youDied.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/4);
+    youDied.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/5);
 }
 
 void DeadScreen::update(Player& p, HitNumManager& nMan) {
@@ -24,10 +23,16 @@ void DeadScreen::update(Player& p, HitNumManager& nMan) {
     exit_B.text.setFillColor(sf::Color(225, 225, 225));
     respawn_B.text.setFillColor(sf::Color(225, 225, 225));
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        buttons = Respawn;
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+    if (buttons == None && downArrow) {
         buttons = Exit;
+    } else if (buttons == None && upArrow) {
+        buttons = Respawn;
+    }
+
+    if ((buttons == Respawn && upArrow) || (buttons == Respawn && downArrow)) {
+        buttons = Exit;
+    } else if ((buttons == Exit && upArrow) || (buttons == Exit && downArrow)) {
+        buttons = Respawn;
     }
 
     if (buttons == Respawn) {
@@ -35,16 +40,20 @@ void DeadScreen::update(Player& p, HitNumManager& nMan) {
         respawn_B.text.setFillColor(sf::Color(255, 255, 255));
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
             game_state = Running;
+            // Reset everything
             p.health = p.maxHealth;
             Enemy::enemy_list.clear();
             Enemy::amount = 0;
             nMan.list.clear();
             tTime = 0;
             p.immunityF = 1;
+            kills = 0;
             p.pos.x = (SCREEN_WIDTH/2)-(p.width/2);
             p.pos.y = (SCREEN_HEIGHT/2)-(p.height/2);
             p.velo.x = 0;
             p.velo.y = 0;
+
+            buttons = None;
         } 
     }
     else if (buttons == Exit){

@@ -14,13 +14,13 @@ public:
     void draw(sf::RenderWindow&);
 
 private:
-    float width=0, height=0;
     sf::RectangleShape redness; // Gives the screen a red tint
-    Button exit_B, respawn_B;
+    Button respawn_B, exit_B;
     sf::Text youDied;
 
     enum {
-        Exit,
-        Respawn
+        None,
+        Respawn,
+        Exit
     } buttons;
 };

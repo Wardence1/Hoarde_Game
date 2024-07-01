@@ -7,6 +7,8 @@ extern const char* TITLE;
 extern const float SCALE; 
 extern int tTime;
 extern bool running;
+extern unsigned int kills;
+extern bool upArrow, downArrow;
 
 struct point {
     float x;
