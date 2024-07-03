@@ -13,7 +13,7 @@ DeadScreen::DeadScreen() :
     youDied.setFont(PIXEL_F);
     youDied.setCharacterSize(60);
     youDied.setOrigin(youDied.getLocalBounds().width/2, youDied.getLocalBounds().height/2);
-    youDied.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/5);
+    youDied.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/6);
 }
 
 void DeadScreen::update(Player& p, HitNumManager& nMan) {
@@ -41,12 +41,15 @@ void DeadScreen::update(Player& p, HitNumManager& nMan) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
             game_state = Running;
             // Reset everything
-            p.health = p.maxHealth;
+            p.defaultMaxHealth = p.health = p.maxHealth;
             Enemy::enemy_list.clear();
             Enemy::amount = 0;
             nMan.list.clear();
             tTime = 0;
             p.immunityF = 1;
+            p.speed = p.defaultSpeed;
+            p.knockback = p.defaultKnockback;
+            p.damage = p.defaultDamage;
             kills = 0;
             p.pos.x = (SCREEN_WIDTH/2)-(p.width/2);
             p.pos.y = (SCREEN_HEIGHT/2)-(p.height/2);

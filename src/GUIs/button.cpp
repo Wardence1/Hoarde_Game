@@ -10,7 +10,7 @@ Button::Button(std::string string, sf::Color color, point pos, int outlineThickn
     text.setPosition({pos.x, pos.y});
 
     button.setFillColor(color);
-    if (outlineThickness) button.setOutlineColor(sf::Color::Black);
+    if (outlineThickness) button.setOutlineColor(sf::Color::White);
     button.setOutlineThickness(outlineThickness);
     button.setSize({text.getLocalBounds().width+20, text.getLocalBounds().height+28});
     button.setOrigin({button.getLocalBounds().width/2, button.getLocalBounds().height/2});

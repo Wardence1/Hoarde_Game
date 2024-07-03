@@ -15,7 +15,7 @@ title(Button("Return to Title", sf::Color(142, 142, 142, 0), {(float)SCREEN_WIDT
     paused.setCharacterSize(60);
     paused.setFont(PIXEL_F);
     paused.setOrigin(paused.getLocalBounds().width/2, paused.getLocalBounds().height/2);
-    paused.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/5);
+    paused.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/6);
 
     buttons = None;
 }

@@ -10,6 +10,7 @@ unsigned int kills = 0;
 int tTime = 0; // Total time gone by
 sf::Vector2i mPos = {0, 0};
 bool downArrow=false, upArrow=false;
+bool enemyDead = false;
 
 GAME_STATE game_state = Running;
 

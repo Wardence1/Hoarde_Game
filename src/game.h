@@ -10,7 +10,7 @@
 #include "hitNumbers.h"
 #include "GUIs/runScreen.h"
 #include "GUIs/pauseScreen.h"
-#include <random>
+#include "GUIs/upgradeScreen.h"
 
 class Game {
 

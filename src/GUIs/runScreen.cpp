@@ -13,7 +13,7 @@ RunScreen::RunScreen() {
 
 void RunScreen::update(Player& p) {
     std::string kills_s = "Kills: " + std::to_string(kills);
-    std::string health_s = "Health: " + std::to_string(p.health);
+    std::string health_s = "Health: " + std::to_string(p.health) + "/" + std::to_string(p.maxHealth);
     kills_t.setString(kills_s);
     health_t.setString(health_s);
 }

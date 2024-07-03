@@ -18,6 +18,12 @@ public:
     int damage = 5;
     float knockback = 28;
     int health = 25;
+
+    int defaultMaxHealth = 25;
+    int defaultDamage = 5;
+    int defaultKnockback = 28;
+    int defaultSpeed = 8;
+
     int maxHealth = health;
     unsigned short immunityF = 0; // Immunity frames
 

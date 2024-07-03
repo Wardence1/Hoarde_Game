@@ -9,6 +9,7 @@ extern int tTime;
 extern bool running;
 extern unsigned int kills;
 extern bool upArrow, downArrow;
+extern bool enemyDead;
 
 struct point {
     float x;
@@ -27,6 +28,7 @@ extern enum GAME_STATE {
     Dead,
     Paused,
     Menu,
+    Upgrading
 } game_state;
 
 extern sf::Vector2i mPos; // mouse position

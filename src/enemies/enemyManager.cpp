@@ -44,11 +44,11 @@ void EnemyManager::update(Player& p, EnemyManager& eManager, HitNumManager& nMan
     // Spawner
     static bool flip = false; 
 
-    if (tTime%(FPS*1) == 0 && flip) {
+    if (tTime%(int)(FPS*1.2f) == 0 && flip) {
         addE("skeleton", {0, 0}, true);
         flip = false;
     }
-    else if (tTime%(FPS*1) == 0 && !flip) {
+    else if (tTime%(int)(FPS*1.2f) == 0 && !flip) {
         addE("goblin", {0, 0}, true);
         flip = true;
     }

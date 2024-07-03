@@ -110,6 +110,7 @@ void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
     if (health <= 0 && !dead) { // death checks
         Enemy::amount--;
         kills++;
+        enemyDead = true;
         dead = true;
     }
 
