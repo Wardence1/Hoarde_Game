@@ -11,6 +11,7 @@ void Game::start() {
     window.setPosition({((int)sf::VideoMode::getDesktopMode().width/2)-(int)SCREEN_WIDTH/2, (int)(sf::VideoMode::getDesktopMode().height/2)-(int)SCREEN_HEIGHT/2});
     window.setFramerateLimit(FPS);
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    window.setMouseCursorVisible(false);
 
     sf::Event event;
     running = true;
@@ -25,7 +26,7 @@ void Game::start() {
     
 
     while (running) {
-        // TODO * set randoms seed based on gametime
+        // TODO * put random calls to rand in random functions to make the game more random.
         tTime++;
         mPos = sf::Mouse::getPosition();
 
@@ -54,7 +55,7 @@ void Game::start() {
 
 
         // Update
-        if (kills % 5 == 0 && kills != 0 && enemyDead) {
+        if (kills % killsTillUpgrade == 0 && kills != 0 && enemyDead) {
             game_state = Upgrading;
             enemyDead = false;
         }

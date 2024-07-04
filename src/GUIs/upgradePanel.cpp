@@ -19,7 +19,7 @@ UpgradePanel::UpgradePanel(point pos, std::string type) {
     Three types weapon, self, building.
     The first two are self explanitory and the building is something you can place down to slow down / damage enemies.
     */
-    randWep = rand()%2;
+    randWep = rand()%3;
     randSelf = rand()%2;
     randBuilding = rand()%2;
 
@@ -28,13 +28,17 @@ UpgradePanel::UpgradePanel(point pos, std::string type) {
         switch (randWep) {
             case 0:
                 title.setString("Sharpened Blade");
-                description.setString("Increases Damage by 2.");
+                description.setString("Increases Damage by 1.");
                 break;
             case 1:
                 title.setString("Stiff Blade");
                 description.setString("Increases Knockback.");
                 break;
             case 2:
+                title.setString("Swift Blade");
+                description.setString("Decreases Swing Time.");
+                break;
+            case 3:
                 title.setString("Bigger Blade");
                 description.setString("Makes your sword bigger by 20%.");
                 break;
@@ -52,7 +56,7 @@ UpgradePanel::UpgradePanel(point pos, std::string type) {
                 break;
             case 1:
                 title.setString("Blood Herbs");
-                description.setString("Increases max health by 2.");
+                description.setString("Decreases regen time.");
                 break;
             default:
                 std::cout << "Random upgrade error.\n";
@@ -100,13 +104,16 @@ void UpgradePanel::pressed(Player& p) {
 
     if (type == "weapon") {
         switch (randWep) {
-            case 0: // Sharpened Blade * Damage + 2
-                p.damage+=2;
+            case 0: // Sharpened Blade * Damage + 1
+                p.damage += 1;
                 break;
-            case 1: // Stiff Blade * Knockback + 4
-                p.knockback+=4;
+            case 1: // Stiff Blade * Knockback + 5
+                p.knockback += 5;
                 break;
-            case 2: // Bigger Blade * Blade size increased
+            case 2: // Swift Blade * atkCoolTime - 2
+                if (p.atkCoolTime > 2) p.atkCoolTime -= 2;
+                break;
+            case 3: // Bigger Blade * Blade size increased
                 std::cout << "Not programmed yet.\n";
                 break;
             default:
@@ -120,8 +127,8 @@ void UpgradePanel::pressed(Player& p) {
             case 0: // Aglet * Speed +1
                 p.speed++;
                 break;
-            case 1: // Blood herbs * max health + 2
-                p.maxHealth += 2;
+            case 1: // Blood herbs * health regen time - 1
+                if (p.regenTime > 1) p.regenTime -= 1;
                 break;
             default:
                 std::cout << "Random upgrade error.\n";

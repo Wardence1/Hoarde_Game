@@ -14,6 +14,9 @@ DeadScreen::DeadScreen() :
     youDied.setCharacterSize(60);
     youDied.setOrigin(youDied.getLocalBounds().width/2, youDied.getLocalBounds().height/2);
     youDied.setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/6);
+
+    killAmount.setFont(PIXEL_F);
+    killAmount.setCharacterSize(26);
 }
 
 void DeadScreen::update(Player& p, HitNumManager& nMan) {
@@ -23,6 +26,13 @@ void DeadScreen::update(Player& p, HitNumManager& nMan) {
     exit_B.text.setFillColor(sf::Color(225, 225, 225));
     respawn_B.text.setFillColor(sf::Color(225, 225, 225));
 
+    // Kills
+    std::string killAmount_s = "Kills: " + std::to_string(kills);
+    killAmount.setString(killAmount_s);
+    killAmount.setOrigin(killAmount.getLocalBounds().width/2, killAmount.getLocalBounds().height/2);
+    killAmount.setPosition(SCREEN_WIDTH/2, youDied.getPosition().y+youDied.getLocalBounds().height+30);
+
+    // Button selection
     if (buttons == None && downArrow) {
         buttons = Exit;
     } else if (buttons == None && upArrow) {
@@ -50,6 +60,9 @@ void DeadScreen::update(Player& p, HitNumManager& nMan) {
             p.speed = p.defaultSpeed;
             p.knockback = p.defaultKnockback;
             p.damage = p.defaultDamage;
+            p.regenAmount = p.defaultRegenAmount;
+            p.regenTime = p.defaultRegenTime;
+            p.atkCoolTime = p.defaultAtkCoolTime;
             kills = 0;
             p.pos.x = (SCREEN_WIDTH/2)-(p.width/2);
             p.pos.y = (SCREEN_HEIGHT/2)-(p.height/2);
@@ -76,4 +89,5 @@ void DeadScreen::draw(sf::RenderWindow& window) {
     respawn_B.draw(window);
     exit_B.draw(window);
     window.draw(youDied);
+    window.draw(killAmount);
 }

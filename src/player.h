@@ -18,13 +18,19 @@ public:
     int damage = 5;
     float knockback = 28;
     int health = 25;
-
-    int defaultMaxHealth = 25;
-    int defaultDamage = 5;
-    int defaultKnockback = 28;
-    int defaultSpeed = 8;
-
+    int regenTime = 15; // seconds
+    int regenAmount = 3;
+    int atkCoolTime = FPS/4;
     int maxHealth = health;
+
+    int defaultMaxHealth = maxHealth;
+    int defaultDamage = damage;
+    int defaultKnockback = knockback;
+    int defaultSpeed = speed;
+    int defaultRegenAmount = regenAmount;
+    int defaultAtkCoolTime = atkCoolTime;
+    int defaultRegenTime = regenTime;
+
     unsigned short immunityF = 0; // Immunity frames
 
     float width, height;
@@ -36,10 +42,12 @@ public:
     void attack(ProjManager&);
     void createSlash(point, int rotation); // creates a slash for the warrior class
     sf::Sprite slash_s;
-    int atkTime = 0, atkCool = FPS*10;
-    bool attacking = false, sPressed = false; // So you can't hold down the space key.
+    bool attacking = false;
     int hitDam = 0;
 
     direction facing;
     direction hitDir;
+
+private:
+    int atkTime = 0, atkCool = FPS*10;
 };

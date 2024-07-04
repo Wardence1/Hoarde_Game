@@ -57,6 +57,20 @@ void Player::update(ProjManager& pMan, HitNumManager& nMan) {
     }
 
 
+    // Regeneration
+    if (tTime != 0)
+        if (tTime%(regenTime*FPS) == 0) {
+            if (health+regenAmount <= maxHealth) {
+                health += regenAmount;
+                nMan.addN({pos.x, pos.y}, regenAmount, false, false, true);
+            } else if (health != maxHealth) {
+                nMan.addN({pos.x, pos.y}, maxHealth-health, false, false, true);
+                health += maxHealth-health;
+            }
+
+        }
+
+
     if (knockBacked && abs(velo.x) <= speed && abs(velo.y) <= speed)
         knockBacked = false;
 
@@ -150,18 +164,14 @@ void Player::attack(ProjManager& pMan) {
         else if (facing == Up) {
             createSlash({pos.x, pos.y-height}, 0);
         }
-    }
+}
         
 
 void Player::createSlash(point spawn, int rotation) {
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-        if (atkCool >= 4 && !sPressed) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && atkCool >= atkCoolTime) {
             attacking = true;
-            sPressed = true;
-        }
-    } else
-        sPressed = false;
+    }
 
     if (attacking) {
         slash_s.setPosition(spawn.x, spawn.y);

@@ -11,6 +11,7 @@ void EnemyManager::addE(std::string type, point pos, bool side) {
             case 1: // Bottom
                 pos.x = rand()%(int)SCREEN_WIDTH;
                 pos.y = SCREEN_HEIGHT; // Needs to get the player's height
+                rand(); // Just to mix up randoms
                 break;
             case 2: // Left
                 pos.x = -8*SCALE;
@@ -19,6 +20,7 @@ void EnemyManager::addE(std::string type, point pos, bool side) {
             case 3: // Right
                 pos.x = SCREEN_WIDTH;
                 pos.y = rand()%(int)SCREEN_HEIGHT; // Needs to get the player's height
+                rand(); // Just to mix up randoms
                 break;
         }
     }
@@ -44,11 +46,11 @@ void EnemyManager::update(Player& p, EnemyManager& eManager, HitNumManager& nMan
     // Spawner
     static bool flip = false; 
 
-    if (tTime%(int)(FPS*1.2f) == 0 && flip) {
+    if (tTime%(int)(FPS*1.5f) == 0 && flip) {
         addE("skeleton", {0, 0}, true);
         flip = false;
     }
-    else if (tTime%(int)(FPS*1.2f) == 0 && !flip) {
+    else if (tTime%(int)(FPS*1.5f) == 0 && !flip) {
         addE("goblin", {0, 0}, true);
         flip = true;
     }

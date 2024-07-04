@@ -16,7 +16,7 @@ public:
 private:
     sf::RectangleShape redness; // Gives the screen a red tint
     Button respawn_B, exit_B;
-    sf::Text youDied;
+    sf::Text youDied, killAmount;
 
     enum {
         None,

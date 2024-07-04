@@ -10,6 +10,7 @@ extern bool running;
 extern unsigned int kills;
 extern bool upArrow, downArrow;
 extern bool enemyDead;
+extern int killsTillUpgrade;
 
 struct point {
     float x;

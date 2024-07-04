@@ -15,17 +15,9 @@ public:
     void init(); // Used to reset the vector of panels
     bool alreadyReset = false;
 private:
-    int selected = -10;
+    int selected = -10; // selected button
     sf::RectangleShape body;
     sf::Text upgrades; // The title
     sf::RectangleShape greyness; // The Background
     std::vector<UpgradePanel> panels;
-
-    enum buttons {
-        None,
-        Top, // Weapon upgrade
-        Middle, // powerup
-        Bottom, // building
-        Back
-    };
 };

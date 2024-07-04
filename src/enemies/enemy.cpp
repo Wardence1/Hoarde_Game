@@ -115,7 +115,7 @@ void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
     }
 
     // Hitting the player
-    if (p.sprite.getGlobalBounds().intersects(sprite.getGlobalBounds())) {
+    if (p.sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()) && !dead) {
         p.hitDam = damage;
         p.hitDir = facing;
     }
