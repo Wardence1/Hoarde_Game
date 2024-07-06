@@ -22,7 +22,13 @@ Player::Player() {
     slash_s.setScale(0, 0);
 }
 
-void Player::update(ProjManager& pMan, HitNumManager& nMan) {
+void Player::update(ProjManager& pMan, HitNumManager& nMan, Player& p) {
+
+    // Update the object being held
+    if (heldObject != nullptr)
+        if (heldObject->held) {
+            heldObject->heldUpdate(p, nMan);
+        }
 
     // Set speed equal to zero or slow it down
     if (abs(velo.x) <= speed) {
@@ -79,7 +85,7 @@ void Player::update(ProjManager& pMan, HitNumManager& nMan) {
         immunityF--;
         hitDam = 0;
     }
-    else if (hitDam > 0) {
+    else if (hitDam > 0 && godMode == false) {
         if ((health-hitDam) > 0) nMan.addN(pos, -hitDam, false, true);
         immunityF = FPS;
         sprite.setColor(sf::Color::Red);

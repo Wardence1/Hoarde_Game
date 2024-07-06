@@ -33,10 +33,10 @@ void EnemyManager::addE(std::string type, point pos, bool side) {
         std::cout << "Invalid enemy type.\n";
 }
 
-void EnemyManager::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
+void EnemyManager::update(Player& p, EnemyManager& eManager, HitNumManager& nManager, ObjectManager& oMan) {
     
     for (unsigned int i=0; i < Enemy::amount; i++) {
-        Enemy::enemy_list[i].update(p, eManager, nManager);
+        Enemy::enemy_list[i].update(p, eManager, nManager, oMan);
         if (Enemy::enemy_list[i].dead) {
             Enemy::enemy_list.erase(i+Enemy::enemy_list.begin());
         }

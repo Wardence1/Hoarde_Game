@@ -10,7 +10,7 @@ Enemy::Enemy() {
     facing = Down;
 }
 
-void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
+void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager, ObjectManager& oMan) {
 
     sprite.setColor(sf::Color::White);
 
@@ -110,6 +110,19 @@ void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
     if (health <= 0 && !dead) { // death checks
         Enemy::amount--;
         kills++;
+        if ((rand()%19) == 0) {
+            switch (rand()%2) {
+                case 0:
+                    oMan.spawn("healing potion", pos);
+                    break;
+                case 1:
+                    oMan.spawn("invincibility potion", pos);
+                    break;
+                default:
+                    std::cout << "Invalid random potion choice.\n";
+                    exit(-1);
+            }
+        }
         enemyDead = true;
         dead = true;
     }

@@ -19,6 +19,7 @@ void Game::start() {
     EnemyManager eManager = EnemyManager();
     ProjManager pManager = ProjManager();
     HitNumManager nManager = HitNumManager();
+    ObjectManager oManager = ObjectManager();
     RunScreen rScreen = RunScreen();
     DeadScreen dScreen = DeadScreen();
     PauseScreen pScreen = PauseScreen();
@@ -60,9 +61,10 @@ void Game::start() {
             enemyDead = false;
         }
         if (game_state == Running) {
-            player.update(pManager, nManager);
+            player.update(pManager, nManager, player);
             pManager.update();
-            eManager.update(player, eManager, nManager);
+            eManager.update(player, eManager, nManager, oManager);
+            oManager.update(player);
             nManager.updateM();
             rScreen.update(player);
         } else if (game_state == Dead) {
@@ -78,10 +80,12 @@ void Game::start() {
 
         // Draw
         window.clear({45, 45, 45, 0});
-        rScreen.draw(window);
+        rScreen.draw(window, player);
         nManager.drawM(window);
+        oManager.draw(window);
         eManager.draw(window);
         pManager.draw(window);
+
         player.draw(window);
 
         if (game_state == Dead) {

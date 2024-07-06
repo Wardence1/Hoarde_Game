@@ -9,9 +9,11 @@ class RunScreen {
 public:
     RunScreen();
     void update(Player&);
-    void draw(sf::RenderWindow&);
+    void draw(sf::RenderWindow&, Player& p);
 
 private:
     sf::Text kills_t;
     sf::Text health_t;
+
+    sf::RectangleShape heldObjectBox;
 };

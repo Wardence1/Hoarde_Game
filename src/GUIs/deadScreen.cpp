@@ -52,6 +52,7 @@ void DeadScreen::update(Player& p, HitNumManager& nMan) {
             game_state = Running;
             // Reset everything
             p.defaultMaxHealth = p.health = p.maxHealth;
+            Object::objects.clear();
             Enemy::enemy_list.clear();
             Enemy::amount = 0;
             nMan.list.clear();
@@ -63,6 +64,7 @@ void DeadScreen::update(Player& p, HitNumManager& nMan) {
             p.regenAmount = p.defaultRegenAmount;
             p.regenTime = p.defaultRegenTime;
             p.atkCoolTime = p.defaultAtkCoolTime;
+            p.healPotionAmount = p.defaultHealPotionAmount;
             kills = 0;
             p.pos.x = (SCREEN_WIDTH/2)-(p.width/2);
             p.pos.y = (SCREEN_HEIGHT/2)-(p.height/2);

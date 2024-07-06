@@ -3,7 +3,9 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <math.h>
+#include <vector>
 #include "../hitNumbers.h"
+#include "../objects/objectManager.h"
 
 class Player;
 class EnemyManager;
@@ -28,7 +30,7 @@ public:
     bool dead = false;
     bool crit = false;
 
-    virtual void update(Player&, EnemyManager&, HitNumManager&);
+    virtual void update(Player&, EnemyManager&, HitNumManager&, ObjectManager&);
     virtual void draw(sf::RenderWindow&);
 
     point velo {

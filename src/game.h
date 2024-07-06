@@ -11,6 +11,7 @@
 #include "GUIs/runScreen.h"
 #include "GUIs/pauseScreen.h"
 #include "GUIs/upgradeScreen.h"
+#include "objects/objectManager.h"
 
 class Game {
 

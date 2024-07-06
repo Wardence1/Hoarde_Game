@@ -14,8 +14,3 @@ Goblin::Goblin(point pos) {
     damage = 2;
     health = 6;
 }
-
-void Goblin::update(Player& p, EnemyManager& eMan, HitNumManager& hMan)  {
-
-    Enemy::update(p, eMan, hMan);
-}

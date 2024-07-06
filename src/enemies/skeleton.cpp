@@ -16,8 +16,3 @@ Skeleton::Skeleton(point pos) {
     health = 12;
 }
 
-void Skeleton::update(Player& p, EnemyManager& eManager, HitNumManager& nManager) {
-
-    Enemy::update(p, eManager, nManager);
-}
-

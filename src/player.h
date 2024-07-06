@@ -4,6 +4,7 @@
 #include "textures.h"
 #include "hitNumbers.h"
 #include "projManager.h"
+#include "objects/object.h"
 
 class EnemyManager;
 
@@ -22,6 +23,8 @@ public:
     int regenAmount = 3;
     int atkCoolTime = FPS/4;
     int maxHealth = health;
+    int healPotionAmount = 5;
+    std::unique_ptr<Object> heldObject;
 
     int defaultMaxHealth = maxHealth;
     int defaultDamage = damage;
@@ -30,13 +33,14 @@ public:
     int defaultRegenAmount = regenAmount;
     int defaultAtkCoolTime = atkCoolTime;
     int defaultRegenTime = regenTime;
+    int defaultHealPotionAmount = healPotionAmount;
 
     unsigned short immunityF = 0; // Immunity frames
 
     float width, height;
     bool knockBacked = false; // is true when the player is taking knockback
 
-    void update(ProjManager&, HitNumManager&);
+    void update(ProjManager&, HitNumManager&, Player&);
     void draw(sf::RenderWindow&);
 
     void attack(ProjManager&);
@@ -50,4 +54,5 @@ public:
 
 private:
     int atkTime = 0, atkCool = FPS*10;
+    bool godMode = false; // for debugging and stuff
 };

@@ -5,6 +5,7 @@
 #include "button.h"
 #include "../player.h"
 #include "../globals.h"
+#include "../objects/object.h"
 
 class DeadScreen {
 
