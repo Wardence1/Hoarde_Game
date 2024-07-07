@@ -12,14 +12,14 @@ Skeleton::Skeleton(point pos) {
     height = sprite.getTextureRect().height*SCALE;
 
     speed = 3;
-    damage = 5;
+    damage = 4;
     health = 12;
 }
 
 void Skeleton::update(Player& p, EnemyManager& eManager, HitNumManager& nManager, ObjectManager& oMan, ProjManager& pMan) {
 
     throwTime++;
-    if (throwTime >= FPS) {
+    if (throwTime >= FPS*(5+(tTime%3))) {
         throwTime = 0;
         pMan.addP("bone", {pos.x+width, pos.y+(height/2)}, p.pos);
     }

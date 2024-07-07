@@ -11,7 +11,7 @@ class DeadScreen {
 
 public:
     DeadScreen();
-    void update(Player& p, HitNumManager& nMan);
+    void update(Player& p, HitNumManager& nMan, ProjManager&);
     void draw(sf::RenderWindow&);
 
 private:

@@ -111,7 +111,10 @@ void Player::update(ProjManager& pMan, HitNumManager& nMan, Player& p) {
     // Projectile Collision
     else if (!godMode) {
         for (auto& projectile : pMan.projectiles) {
-            if (projectile.sprite.getGlobalBounds().intersects(sprite.getGlobalBounds())) {
+            if (slash_s.getGlobalBounds().intersects(projectile.sprite.getGlobalBounds())) {
+                projectile.gone = true;
+            }
+            else if (projectile.sprite.getGlobalBounds().intersects(sprite.getGlobalBounds())) {
                 immunityF = FPS/2;
                 health -= projectile.damage;
                 nMan.addN(pos, -projectile.damage, false, true);

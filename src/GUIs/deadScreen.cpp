@@ -19,7 +19,7 @@ DeadScreen::DeadScreen() :
     killAmount.setCharacterSize(26);
 }
 
-void DeadScreen::update(Player& p, HitNumManager& nMan) {
+void DeadScreen::update(Player& p, HitNumManager& nMan, ProjManager& pMan) {
 
     exit_B.button.setFillColor(sf::Color(85, 85, 85));
     respawn_B.button.setFillColor(sf::Color(85, 85, 85));
@@ -55,6 +55,7 @@ void DeadScreen::update(Player& p, HitNumManager& nMan) {
             Object::objects.clear();
             Enemy::enemy_list.clear();
             Enemy::amount = 0;
+            pMan.projectiles.clear();
             nMan.list.clear();
             tTime = 0;
             p.immunityF = 1;

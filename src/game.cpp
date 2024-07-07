@@ -68,7 +68,7 @@ void Game::start() {
             nManager.updateM();
             rScreen.update(player);
         } else if (game_state == Dead) {
-            dScreen.update(player, nManager);
+            dScreen.update(player, nManager, pManager);
         } else if (game_state == Paused) {
             pScreen.update();
         } else if (game_state == Upgrading) {
