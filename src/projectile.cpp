@@ -1,28 +1,29 @@
 #include "projectile.h"
 #include "enemies/enemy.h"
 
-Projectile::Projectile(const std::string type, point origin, point going) {
+Projectile::Projectile(const std::string type, point origin, point going, bool rotate) : type(type), rotate(rotate) {
 
-    going.x -= width/2;
-    going.y -= height/2;
-
-    rise = origin.y - going.y; // *TODO* Get this to work
-    run = origin.x - going.x;
+    rise = going.y - origin.y;
+    run = going.x - origin.x;
     pos = origin;
 
-    //rise /= rise/run;
-    //run /= rise/run;
-
-
-    if (type == "basic spell") {
-        sprite.setTexture(BASIC_SPELL_T);
-        //rise/20;
-        //run/20;
+    if (type == "bone") {
+        sprite.setTexture(BONE_T);
+        speed = 10;
+        damage = 2;
     }
 
+    // Normalize it
+    float length = std::sqrt((rise*rise) + (run*run));
+    rise /= length;
+    run /= length;
+
+    rise *= speed;
+    run *= speed;
+
     sprite.scale(SCALE, SCALE);
-    width = sprite.getTextureRect().width*SCALE;
-    height = sprite.getTextureRect().height*SCALE;
+    sprite.setOrigin((sprite.getLocalBounds().width)/2, (sprite.getLocalBounds().height)/2);
+    sprite.setPosition({origin.x, origin.y});
 }
 
 void Projectile::update() {
@@ -30,8 +31,13 @@ void Projectile::update() {
     pos.x += run;
     pos.y += rise;
 
-    if (pos.x > SCREEN_WIDTH || pos.x+width < 0 || pos.y+height < 0 || pos.y > SCREEN_HEIGHT)
-        ;// delete it here
+    if (pos.x > SCREEN_WIDTH || pos.x+width < 0 || pos.y+height < 0 || pos.y > SCREEN_HEIGHT) {
+        gone = true;
+    }
+
+    if (type == "bone") {
+        sprite.rotate(4);
+    }
 
     sprite.setPosition(pos.x, pos.y);
 }

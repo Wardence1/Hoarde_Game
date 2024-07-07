@@ -17,6 +17,7 @@ public:
     bool gone = false;
     point pos;
     bool held;
+    int despawnTime = FPS*15;
     sf::Sprite sprite;
     static std::vector<std::unique_ptr<Object>> objects;
 };

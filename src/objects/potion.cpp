@@ -20,6 +20,11 @@ Potion::Potion(point pos, std::string type, bool held) : Object(pos, held), type
 }
 
 void Potion::update(Player& p) {
+
+    despawnTime--;
+    if (despawnTime <=0) {
+        gone = true;
+    }
     
     if (p.sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()) && p.heldObject == nullptr) {
         p.heldObject = std::make_unique<Potion>(point{-200,-200}, type, true);
@@ -49,4 +54,12 @@ void Potion::heldUpdate(Player& p, HitNumManager& nMan) {
         std::cout << "Invalid potion type.\n";
         exit(1);
     }
+}
+
+void Potion::draw(sf::RenderWindow& window) {
+
+    if (despawnTime > FPS*2)
+        window.draw(sprite);
+    else if ((despawnTime & 4) != 0)
+        window.draw(sprite);
 }

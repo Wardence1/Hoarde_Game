@@ -9,7 +9,7 @@
 class EnemyManager {
 
 public:
-    void update(Player&, EnemyManager&, HitNumManager&, ObjectManager&);
+    void update(Player&, EnemyManager&, HitNumManager&, ObjectManager&, ProjManager&);
     void draw(sf::RenderWindow&);
     void addE(std::string, point, bool side = false); 
 };

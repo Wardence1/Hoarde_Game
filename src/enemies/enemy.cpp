@@ -10,7 +10,7 @@ Enemy::Enemy() {
     facing = Down;
 }
 
-void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager, ObjectManager& oMan) {
+void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager, ObjectManager& oMan, ProjManager& pMan) {
 
     sprite.setColor(sf::Color::White);
 
@@ -62,21 +62,21 @@ void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager, O
 
     // Collisions with other enemies
     for (auto const& e : Enemy::enemy_list) {
-        if (e.code != code) { // You can't collide with yourself
-            if (e.sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()) && pos.x < e.pos.x) { // hit from right
+        if (e->code != code) { // You can't collide with yourself
+            if (e->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()) && pos.x < e->pos.x) { // hit from right
                 if (velo.x > 0) 
                     velo.x = 0;
             }
-            else if (e.sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()) && pos.x > e.pos.x) { // hit from left
+            else if (e->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()) && pos.x > e->pos.x) { // hit from left
                 if (velo.x < 0)
                     velo.x = 0;
             }
 
-            if (e.sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()) && pos.y < e.pos.y) { // hit from bottom
+            if (e->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()) && pos.y < e->pos.y) { // hit from bottom
                 if (velo.y > 0)
                     velo.y = 0;
             }
-            else if (e.sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()) && pos.y > e.pos.y) { // hit from top
+            else if (e->sprite.getGlobalBounds().intersects(sprite.getGlobalBounds()) && pos.y > e->pos.y) { // hit from top
                 if (velo.y < 0)
                     velo.y = 0;
             }
@@ -110,7 +110,7 @@ void Enemy::update(Player& p, EnemyManager& eManager, HitNumManager& nManager, O
     if (health <= 0 && !dead) { // death checks
         Enemy::amount--;
         kills++;
-        if ((rand()%19) == 0) {
+        if ((rand()%9) == 0) {
             switch (rand()%2) {
                 case 0:
                     oMan.spawn("healing potion", pos);
@@ -151,6 +151,6 @@ void Enemy::draw(sf::RenderWindow& window) {
     window.draw(sprite);
 }
 
-std::vector<Enemy> Enemy::enemy_list;
+std::vector<std::unique_ptr<Enemy>> Enemy::enemy_list;
 int Enemy::allCode = 0;
 unsigned int Enemy::amount = 0;

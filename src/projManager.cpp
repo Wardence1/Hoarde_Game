@@ -2,8 +2,11 @@
 
 void ProjManager::update() {
 
-    for (auto& p : projectiles) {
-        p.update();
+    for (int i=0; i<(int)projectiles.size(); i++) {
+        projectiles[i].update();
+        if (projectiles[i].gone) {
+            projectiles.erase(i+projectiles.begin());
+        }
     }
 }
 

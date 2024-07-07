@@ -26,24 +26,24 @@ void EnemyManager::addE(std::string type, point pos, bool side) {
     }
 
     if (type == "skeleton")
-        Enemy::enemy_list.push_back(Skeleton(pos));
+        Enemy::enemy_list.push_back(std::make_unique<Skeleton>(pos));
     else if (type == "goblin")
-        Enemy::enemy_list.push_back(Goblin(pos));
+        Enemy::enemy_list.push_back(std::make_unique<Goblin>(pos));
     else
         std::cout << "Invalid enemy type.\n";
 }
 
-void EnemyManager::update(Player& p, EnemyManager& eManager, HitNumManager& nManager, ObjectManager& oMan) {
+void EnemyManager::update(Player& p, EnemyManager& eManager, HitNumManager& nManager, ObjectManager& oMan, ProjManager& pMan) {
     
     for (unsigned int i=0; i < Enemy::amount; i++) {
-        Enemy::enemy_list[i].update(p, eManager, nManager, oMan);
-        if (Enemy::enemy_list[i].dead) {
+        Enemy::enemy_list[i]->update(p, eManager, nManager, oMan, pMan);
+        if (Enemy::enemy_list[i]->dead) {
             Enemy::enemy_list.erase(i+Enemy::enemy_list.begin());
         }
     }
 
-
     // Spawner
+    
     static bool flip = false; 
 
     if (tTime%(int)(FPS*1.5f) == 0 && flip) {
@@ -54,12 +54,11 @@ void EnemyManager::update(Player& p, EnemyManager& eManager, HitNumManager& nMan
         addE("goblin", {0, 0}, true);
         flip = true;
     }
-
 }   
 
 void EnemyManager::draw(sf::RenderWindow& window) {
 
     for (auto& e : Enemy::enemy_list) {
-        e.draw(window);
+        e->draw(window);
     }
 }

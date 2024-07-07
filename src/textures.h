@@ -9,6 +9,8 @@ extern sf::Texture BASIC_SPELL_T;
 extern sf::Texture SLASH_T;
 extern sf::Texture GOBLIN_T;
 
+extern sf::Texture BONE_T;
+
 extern sf::Texture HEALING_POTION_T;
 extern sf::Texture INVINCIBILITY_POTION_T;
 

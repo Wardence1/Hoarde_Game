@@ -16,3 +16,14 @@ Skeleton::Skeleton(point pos) {
     health = 12;
 }
 
+void Skeleton::update(Player& p, EnemyManager& eManager, HitNumManager& nManager, ObjectManager& oMan, ProjManager& pMan) {
+
+    throwTime++;
+    if (throwTime >= FPS) {
+        throwTime = 0;
+        pMan.addP("bone", {pos.x+width, pos.y+(height/2)}, p.pos);
+    }
+
+    Enemy::update(p, eManager, nManager, oMan, pMan);
+}
+

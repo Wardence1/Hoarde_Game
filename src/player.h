@@ -54,5 +54,5 @@ public:
 
 private:
     int atkTime = 0, atkCool = FPS*10;
-    bool godMode = false; // for debugging and stuff
+    bool godMode = true; // for debugging and stuff
 };

@@ -6,6 +6,7 @@
 #include <vector>
 #include "../hitNumbers.h"
 #include "../objects/objectManager.h"
+#include "../projManager.h"
 
 class Player;
 class EnemyManager;
@@ -16,7 +17,7 @@ public:
     Enemy();
     point pos;
     sf::Sprite sprite;
-    static std::vector<Enemy> enemy_list;
+    static std::vector<std::unique_ptr<Enemy>> enemy_list;
     int width, height;
     float speed = 5.5;
     int hitDam = 0;
@@ -30,7 +31,7 @@ public:
     bool dead = false;
     bool crit = false;
 
-    virtual void update(Player&, EnemyManager&, HitNumManager&, ObjectManager&);
+    virtual void update(Player&, EnemyManager&, HitNumManager&, ObjectManager&, ProjManager&);
     virtual void draw(sf::RenderWindow&);
 
     point velo {

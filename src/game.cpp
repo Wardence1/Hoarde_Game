@@ -63,7 +63,7 @@ void Game::start() {
         if (game_state == Running) {
             player.update(pManager, nManager, player);
             pManager.update();
-            eManager.update(player, eManager, nManager, oManager);
+            eManager.update(player, eManager, nManager, oManager, pManager);
             oManager.update(player);
             nManager.updateM();
             rScreen.update(player);

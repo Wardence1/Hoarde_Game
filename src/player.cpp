@@ -108,6 +108,17 @@ void Player::update(ProjManager& pMan, HitNumManager& nMan, Player& p) {
         knockBacked = true;
         hitDam = 0;
     }
+    // Projectile Collision
+    else if (!godMode) {
+        for (auto& projectile : pMan.projectiles) {
+            if (projectile.sprite.getGlobalBounds().intersects(sprite.getGlobalBounds())) {
+                immunityF = FPS/2;
+                health -= projectile.damage;
+                nMan.addN(pos, -projectile.damage, false, true);
+                projectile.gone = true;
+            }
+        }
+    }
 
     if (health <= 0) {
         game_state = Dead;
@@ -187,23 +198,23 @@ void Player::createSlash(point spawn, int rotation) {
 
         if (atkTime == 1) {
             for (auto& e : Enemy::enemy_list)
-                if (slash_s.getGlobalBounds().intersects(e.sprite.getGlobalBounds())) {
+                if (slash_s.getGlobalBounds().intersects(e->sprite.getGlobalBounds())) {
                     if (rand()%4 == 3) {
-                        e.hitDam = damage*1.5;
-                        e.crit = true;
+                        e->hitDam = damage*1.5;
+                        e->crit = true;
                     }
                     else {
-                        e.hitDam = damage;
+                        e->hitDam = damage;
                     }
+                }
+        }
+
+
+        if (atkTime > 1) {
+            slash_s.setScale(0, 0);
+            atkCool = 0;
+            atkTime = 0;
+            attacking = false;
         }
     }
-
-
-    if (atkTime > 1) {
-        slash_s.setScale(0, 0);
-        atkCool = 0;
-        atkTime = 0;
-        attacking = false;
-    }
-}
 }
